@@ -2,7 +2,7 @@
   "containerDefinitions": [
     {
       "name": "web",
-      "image": "%s.dkr.ecr.us-west-2.amazonaws.com\/web:%s",
+      "image": "%s.dkr.ecr.us-west-2.amazonaws.com\/web:latest",
       "essential": true,
       "memory": 300,
       "cpu": 300,
@@ -11,6 +11,22 @@
           "containerPort": 3002,
           "hostPort": 3002,
           "protocol": "tcp"
+        }
+      ],
+      "links": [
+        "web-database"
+      ]
+    },
+    {
+      "name": "web-database",
+      "image": "%s.dkr.ecr.us-west-2.amazonaws.com\/web-database:latest",
+      "essential": true,
+      "memory": 300,
+      "cpu": 300,
+      "portMappings": [
+        {
+          "containerPort": 5432,
+          "hostPort": 5432
         }
       ]
     }

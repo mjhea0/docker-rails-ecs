@@ -12,20 +12,20 @@ configure_aws_cli() {
 
 push_images() {
 	eval $(aws ecr get-login)
-  docker tag -f web $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:$CIRCLE_SHA1
-	docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:$CIRCLE_SHA1
+  # docker tag -f web $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:$CIRCLE_SHA1
+	# docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:$CIRCLE_SHA1
   docker tag -f web $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:latest
 	docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:latest
-	docker tag -f web-db $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web-db:$CIRCLE_SHA1
-	docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:$CIRCLE_SHA1
-  docker tag -f web-db $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web-db:latest
-	docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web-db:latest
+	# docker tag -f web-database $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web-database:$CIRCLE_SHA1
+	# docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:$CIRCLE_SHA1
+  docker tag -f web-database $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web-database:latest
+	docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web-database:latest
 	echo "Image(s) pushed!"
 }
 
 make_task_def() {
     task_template=$(cat ecs_taskdefinition.json)
-    task_def=$(printf "$task_template" $CIRCLE_SHA1)
+    task_def=$(printf "$task_template" $AWS_ACCOUNT_ID $AWS_ACCOUNT_ID)
     echo "$task_def"
 }
 
