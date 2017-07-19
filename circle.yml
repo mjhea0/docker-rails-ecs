@@ -1,0 +1,30 @@
+machine:
+  services:
+    - docker
+
+general:
+  artifacts:
+    - log
+
+dependencies:
+  cache_directories:
+    - ~/docker
+    - docker/serverspec/vendor/bundle
+  override:
+    - sudo pip install awscli
+    - aws configure set default.region us-west-2
+    - eval $(aws ecr get-login)
+    - docker pull $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:latest
+    - docker build -t web ./src
+
+database:
+  override:
+    - echo "Skipping database install..."
+
+test:
+  override:
+    - echo "Skipping tests..."
+
+deployment:
+  commands:
+    - ./deploy.sh

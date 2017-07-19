@@ -1,0 +1,18 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "web",
+      "image": "%s.dkr.ecr.us-west-2.amazonaws.com\/web:%s",
+      "essential": true,
+      "memory": 300,
+      "cpu": 300,
+      "portMappings": [
+        {
+          "containerPort": 3002,
+          "hostPort": 3002,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  ]
+}
