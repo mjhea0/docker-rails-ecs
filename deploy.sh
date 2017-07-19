@@ -10,12 +10,16 @@ configure_aws_cli() {
 	echo "Configured!"
 }
 
-push_image() {
+push_images() {
 	eval $(aws ecr get-login)
-  # docker tag -f web $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:$CIRCLE_SHA1
-	# docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:$CIRCLE_SHA1
+  docker tag -f web $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:$CIRCLE_SHA1
+	docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:$CIRCLE_SHA1
   docker tag -f web $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:latest
 	docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:latest
+	docker tag -f web-db $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web-db:$CIRCLE_SHA1
+	docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:$CIRCLE_SHA1
+  docker tag -f web-db $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web-db:latest
+	docker push $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web-db:latest
 	echo "Image(s) pushed!"
 }
 
@@ -66,5 +70,5 @@ deploy_cluster() {
 }
 
 configure_aws_cli
-push_image
+push_images
 deploy_cluster

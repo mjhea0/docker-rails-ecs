@@ -15,7 +15,9 @@ dependencies:
     - aws configure set default.region us-west-2
     - eval $(aws ecr get-login)
     - docker pull $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web:latest
+    - docker pull $AWS_ACCOUNT_ID.dkr.ecr.us-west-2.amazonaws.com/web-db:latest
     - docker build -t web ./src
+    - docker build -t web-db ./src/db
 
 database:
   override:
